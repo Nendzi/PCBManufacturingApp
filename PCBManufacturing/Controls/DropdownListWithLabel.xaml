@@ -1,0 +1,76 @@
+﻿<UserControl x:Class="PCBManufacturing.Controls.DropdownListWithLabel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:PCBManufacturing.Controls"
+             mc:Ignorable="d">
+
+	<UserControl.Resources>
+
+		<!-- Default item template -->
+		<DataTemplate x:Key="DefaultItemTemplate">
+			<TextBlock Text="{Binding DisplayName}" Margin="2"/>
+		</DataTemplate>
+
+		<!-- Color item template -->
+		<DataTemplate x:Key="ColorItemTemplate">
+			<StackPanel Orientation="Horizontal" Margin="2">
+
+				<Border Width="16"
+                        Height="16"
+                        Background="{Binding ColorValue}"
+                        BorderBrush="Black"
+                        BorderThickness="1"
+                        Margin="0,0,6,0"/>
+
+				<TextBlock Text="{Binding DisplayName}"
+                           VerticalAlignment="Center"/>
+			</StackPanel>
+		</DataTemplate>
+
+	</UserControl.Resources>
+
+	<!-- Template switching done properly via Style -->
+	<Grid Margin="10">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto"/>
+			<ColumnDefinition Width="*"/>
+		</Grid.ColumnDefinitions>
+
+		<!-- Label -->
+		<TextBlock Grid.Column="0"
+                   Text="{Binding LabelText, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                   VerticalAlignment="Center"
+                   Margin="0,0,10,0"
+                   MinWidth="80"/>
+
+		<!-- ComboBox -->
+		<ComboBox x:Name="GeneralComboBox"
+                  Grid.Column="1"
+                  Width="150"
+                  ItemsSource="{Binding Items, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                  SelectedItem="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}">
+
+			<ComboBox.Style>
+				<Style TargetType="ComboBox">
+
+					<Setter Property="ItemTemplate"
+                            Value="{StaticResource DefaultItemTemplate}" />
+
+					<Style.Triggers>
+
+						<DataTrigger Binding="{Binding ShowColorSquares, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                     Value="True">
+							<Setter Property="ItemTemplate"
+                                    Value="{StaticResource ColorItemTemplate}" />
+						</DataTrigger>
+
+					</Style.Triggers>
+				</Style>
+			</ComboBox.Style>
+
+		</ComboBox>
+
+	</Grid>
+</UserControl>
