@@ -93,6 +93,7 @@ namespace PCBManufacturing.ViewModels
 				ValidatePostalCode();
 
 				OnPropertyChanged(nameof(IsPostalCodeValid));
+				OnPropertyChanged(nameof(Purchase));
 				CommandManager.InvalidateRequerySuggested();
 			}
 		}
